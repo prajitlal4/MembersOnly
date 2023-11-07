@@ -10,20 +10,19 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(params[:post])
+    @post = Post.new(post_params.merge(user_id: current_user.id))
     if @post.save
-      flash[:success] = "Post successfully created"
-      redirect_to @post
+      redirect_to posts_path
     else
-      flash[:error] = "Something went wrong"
-      render 'new'
+      render :new, status: :unprocessable_entity
     end
   end
 
   private
 
-  def params
-    params.require(:post).permit(:title, :body, :user_id)
+  # Ensure you use the correct method name here which should be `post_params` rather than `params`
+  def post_params
+    params.require(:post).permit(:title, :body)
   end
 
 end
