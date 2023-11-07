@@ -4,6 +4,13 @@
   <% @posts.each do |post| %>
     <li>
       <%= post.title %>
+      <% if user_signed_in? %>
+        <p>
+          <%= post.user.email %>
+        </p>
+      <% end %>
     </li>
   <% end %>
 </ul>
+
+<%= link_to 'Sign Out', destroy_user_session_path, data: { turbo_method: :delete } %>
